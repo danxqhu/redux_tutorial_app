@@ -10,7 +10,7 @@ function App() {
   // console.log(islogin);
   const cartItems = useSelector(state => state.cart.itemsList);
   useEffect(() => {
-    fetch('', {
+    fetch('https://yth2veim6m.hk.aircode.run/redux_tutorial_cart_put', {
       method: 'PUT',
       body: JSON.stringify(cart),
     });

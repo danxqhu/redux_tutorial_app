@@ -10,10 +10,20 @@ function App() {
   // console.log(islogin);
   const cartItems = useSelector(state => state.cart.itemsList);
   useEffect(() => {
-    fetch('https://yth2veim6m.hk.aircode.run/redux_tutorial_cart_put', {
-      method: 'PUT',
-      body: JSON.stringify(cart),
-    });
+    const sendRequest = async () => {
+      const res = await fetch('https://yth2veim6m.hk.aircode.run/redux_tutorial_cart_put', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(cart),
+      });
+      const data = await res.json();
+      console.log(data);
+    };
+    sendRequest();
+    // console.log('cart:', cart);
   }, [cart]);
   // console.log(cartItems);
   return (

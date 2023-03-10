@@ -3,6 +3,7 @@ import './App.css';
 import Auth from './components/Auth';
 import Layout from './components/Layout';
 import { useSelector } from 'react-redux';
+import Notification from './components/Notification';
 
 function App() {
   const cart = useSelector(state => state.cart);
@@ -28,6 +29,7 @@ function App() {
   // console.log(cartItems);
   return (
     <div className="App">
+      <Notification type="success" message={'This is dummy message'} />
       {!islogin && <Auth />}
       {islogin && <Layout />}
     </div>

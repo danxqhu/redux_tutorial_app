@@ -23,7 +23,9 @@ function App() {
       const data = await res.json();
       console.log(data);
     };
-    sendRequest();
+    sendRequest().catch(err => {
+      // send state as error
+    });
     // console.log('cart:', cart);
   }, [cart]);
   // console.log(cartItems);

@@ -2,36 +2,34 @@ import React, { useEffect } from 'react';
 import './App.css';
 import Auth from './components/Auth';
 import Layout from './components/Layout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Notification from './components/Notification';
+import { uiActions } from './store/ui-slice';
+import { fetchData, sendCartData } from './store/cart-actions';
+
+let isFirstRender = true;
 
 function App() {
+  const dispatch = useDispatch();
+  const notification = useSelector(state => state.ui.notification);
   const cart = useSelector(state => state.cart);
   const islogin = useSelector(state => state.auth.islogin);
   // console.log(islogin);
-  const cartItems = useSelector(state => state.cart.itemsList);
+  // const cartItems = useSelector(state => state.cart.itemsList);
   useEffect(() => {
-    const sendRequest = async () => {
-      const res = await fetch('https://yth2veim6m.hk.aircode.run/redux_tutorial_cart_put', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(cart),
-      });
-      const data = await res.json();
-      console.log(data);
-    };
-    sendRequest().catch(err => {
-      // send state as error
-    });
-    // console.log('cart:', cart);
-  }, [cart]);
+    dispatch(fetchData());
+  }, [dispatch]);
+  useEffect(() => {
+    if (isFirstRender) {
+      isFirstRender = false;
+      return;
+    }
+    dispatch(sendCartData(cart));
+  }, [cart, dispatch]);
   // console.log(cartItems);
   return (
     <div className="App">
-      <Notification type="success" message={'This is dummy message'} />
+      {notification && <Notification type={notification.type} message={notification.message} />}
       {!islogin && <Auth />}
       {islogin && <Layout />}
     </div>
